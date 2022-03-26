@@ -202,25 +202,25 @@ public class MyInstantiationAwareBeanPostProcessor extends
 
     ----------------------------------下面是回答模板---------------------------------
 
-11. 【Bean实例化】调用Person的构造器实例化（推断构造方法）*
+11. 【Bean实例化】调用Person的构造器实例化（推断构造方法）*  *createBeanInstance方法创建*
 
 12. InstantiationAwareBeanPostProcessor调用postProcessPropertyValues方法
 
-13. 【注入属性】*
+13. 【注入属性】* *利用反射实例化后只是分配内存空间，并没有对属性进行设置。polulateBean方法注入*
 
     
 
-14. 【BeanNameAware接口】调用setBeanName方法     *
+14. 【BeanNameAware接口】调用setBeanName方法     * *invokeAwareMethds设置容器对象*
 
-15. 【BeanFactoryAware接口】调用setBeanFactory方法    *
+15. 【BeanFactoryAware接口】调用setBeanFactory方法    * Aware接口是为了自定义对象能够使用Spring的内部对象，如BeanFactory
 
-15. BeanPostProcessor接口方法postProcessBeforeInitialization对属性进行更改
+16. BeanPostProcessor接口postProcessBeforeInitialization方法对属性进行更改 *
 
     
 
-16. 【InitializingBean接口】调用afterPropertiesSet方法 
+17. 【InitializingBean接口】调用afterPropertiesSet方法  *
 
-17. 【init-method】调用<bean>的init-method属性指定的初始化方法   *
+18. 【init-method】调用<bean>的init-method属性指定的初始化方法   *
 
 19. BeanPostProcessor接口方法postProcessAfterInitialization调用   *
 

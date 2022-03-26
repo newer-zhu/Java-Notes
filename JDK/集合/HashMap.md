@@ -62,42 +62,55 @@ public V get(Object key) {
         Node<K,V> e;
         return (e = getNode(hash(key), key)) == null ? null : e.value;
     }
-final void putMapEntries(Map<? extends K, ? extends V> m, boolean evict) {
-        int s = m.size();
-        if (s > 0) {
-            if (table == null) { // pre-size
-                float ft = ((float)s / loadFactor) + 1.0F;
-                int t = ((ft < (float)MAXIMUM_CAPACITY) ?
-                         (int)ft : MAXIMUM_CAPACITY);
-                if (t > threshold)
-                    threshold = tableSizeFor(t);
-            } else {
-                // Because of linked-list bucket constraints, we cannot
-                // expand all at once, but can reduce total resize
-                // effort by repeated doubling now vs later
-                while (s > threshold && table.length < MAXIMUM_CAPACITY)
-                    resize();
+//获取比较简单
+final HashMap.Node<K, V> getNode(int hash, Object key) {
+        HashMap.Node[] tab;
+        HashMap.Node first;
+        int n;
+    	//table校验，并根据n - 1 & hash找到桶，给first赋值桶的头节点
+        if ((tab = this.table) != null && (n = tab.length) > 0 && (first = tab[n - 1 & hash]) != null) {
+            Object k;
+            //头节点hashcode相同且key相同
+            if (first.hash == hash && ((k = first.key) == key || key != null && key.equals(k))) {
+                return first;
             }
 
-            for (Map.Entry<? extends K, ? extends V> e : m.entrySet()) {
-                K key = e.getKey();
-                V value = e.getValue();
-                putVal(hash(key), key, value, false, evict);
+            HashMap.Node e;
+            if ((e = first.next) != null) {
+                //红黑树寻找逻辑
+                if (first instanceof HashMap.TreeNode) {
+                    return ((HashMap.TreeNode)first).getTreeNode(hash, key);
+                }
+
+                do {//遍历链表
+                    if (e.hash == hash && ((k = e.key) == key || key != null && key.equals(k))) {
+                        return e;
+                    }
+                } while((e = e.next) != null);
             }
         }
+
+        return null;
     }
+
 //放入key和value，第四个参数是onlyIfAbsent,第五个是evict
 public V put(K key, V value) {
         return putVal(hash(key), key, value, false, true);
     }
 
+①.判断键值对数组table[i]是否为空或为null，否则执行resize()进行扩容；
+②.根据键值key计算hash值得到插入的数组索引i，如果table[i]==null，直接新建节点添加，转向⑥，如果table[i]不为空，转向③；
+③.判断table[i]的首个元素是否和key一样，如果相同直接覆盖value，否则转向④，这里的相同指的是hashCode以及equals；
+④.判断table[i] 是否为treeNode，即table[i] 是否是红黑树，如果是红黑树，则直接在树中插入键值对，否则转向⑤；
+⑤.遍历table[i]，判断链表长度是否大于8（且），大于8的话（且数组的长度大于64）把链表转换为红黑树，在红黑树中执行插入操作，否则进行链表的插入操作；遍历过程中若发现key已经存在直接覆盖value即可；
+⑥.插入成功后，判断实际存在的键值对数量size是否超多了最大容量threshold，如果超过，进行扩容。
 final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
                    boolean evict) {
         Node<K,V>[] tab; Node<K,V> p; int n, i;
         if ((tab = table) == null || (n = tab.length) == 0)
-            //如果table为空，初始化数组或双倍扩容，扩容后元素下标保持不动或以原容量的大小偏移
+            //如果table为空，扩容，扩容后元素下标保持不动或以原容量的大小偏移
             n = (tab = resize()).length;
-    /**将hash生成的整型转换成链表数组中的下标。n是table的长度，所以肯定是2		的倍数，那么n-1肯定是奇数。因为奇数的高位肯定是0，这样与hash做与运算		就相当于取模运算。又因为hash的高位无论如何都会变成0，所以hash高位不影		响下标，所以容易造成hash冲突，需要进行hash分散算法。
+    /**将hash生成的整型转换成链表数组中的下标。n是table的长度，所以肯定是2的倍数，那么n-1肯定是奇数。因为奇数的高位肯定是0，这样与hash做与运算就相当于取模运算。又因为hash的高位无论如何都会变成0，所以hash高位不影响下标，所以容易造成hash冲突，需要进行hash分散算法。
     */
         if ((p = tab[i = (n - 1) & hash]) == null)
             //数组里没有链表直接放入
@@ -112,24 +125,29 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
                 //如果是树节点，创建树型节点插入红黑树中
                 e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
             else {
-                //如果不是树型节点，创建普通Node加入链表中；判断链表长度是否大于 8， 大于的话链表转换为红黑树
+                //如果不是树型节点，创建普通Node加入链表中；
                 for (int binCount = 0; ; ++binCount) {
-                    if ((e = p.next) == null) {
-                        p.next = newNode(hash, key, value, null);
+                    if ((e = p.next) == null) {//如果遍历到了尾部
+                        p.next = newNode(hash, key, value, null);//插入尾部
+                        //判断链表长度是否大于 8， 大于的话链表转换为红黑树
                         if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
                             treeifyBin(tab, hash);
                         break;
                     }
+                    //如果找到了相同的key，跳出
                     if (e.hash == hash &&
                         ((k = e.key) == key || (key != null && key.equals(k))))
                         break;
+                    // 用于遍历桶中的链表，与前面的e = p.next组合，可以遍历链表
                     p = e;
                 }
             }
             if (e != null) { // 这个key存在映射
                 V oldValue = e.value;
+                //参数条件判断，是否只在不存在key的情况下put
                 if (!onlyIfAbsent || oldValue == null)
-                    e.value = value;
+                    e.value = value;//覆盖
+                //f
                 afterNodeAccess(e);
                 //返回被覆盖的值
                 return oldValue;
@@ -139,6 +157,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
     //判断是否要扩容
         if (++size > threshold)
             resize();
+    //插入后回调
         afterNodeInsertion(evict);
         return null;
     }
@@ -156,7 +175,11 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 
 ## 常见问题
 
-### 位运算取模
+### 数组长度为2的幂的好处
+
+#### 取模运算
+
+**hashmap根据[ (table_length - 1) & hash ]获取桶下标**
 
 Java之所有使用位运算(&)来代替取模运算(%)，最主要的考虑就是效率。位运算(&)效率要比代替取模运算(%)高很多，主要原因是位运算直接对内存数据进行操作，不需要转成十进制，因此处理速度非常快，还有一个好处就是可以很好的解决负数的问题
 
@@ -170,6 +193,15 @@ X % 2^n  =  X & (2^n - 1)
 
 从2进制角度来看，X / 8相当于 X >> 3，即把X右移3位，此时得到了X / 8的商，而被移掉的部分(后三位)，则是X % 8，也就是余数
 
+那除了效率之外呢？
+
+如果size=11，size=13.....，上面的式子就变成了10 & hash, 12 & hash......
+
+那么hash碰撞的概率会非常大，用&计算下标为了能更分散我们希望hash能和1做&，这样子hash均匀的话我们的桶下标分布也会均匀。
+
+如1010 
+    1111 -> 1010，其中hash是1010，1111是15，也就是table长度-1，而2次幂-1的数后面都是1，满足条件
+
 ### hashcode位运算
 
 ```java
@@ -178,6 +210,24 @@ h ^= k.hashCode(); h ^= (h >>> 20) ^ (h >>> 12); return h ^ (h >>> 7) ^ (h >>> 4
 ```
 
 关于Java 8中的hash函数，原理和Java 7中基本类似。Java 8中这一步做了优化，只做一次16位右位移异或混合，而不是四次，但原理是不变的
+
+#### 扩容判断
+
+有一个元素X，hash后的值为29，二进制为： 0001 1101，数组长度为16.根据上面的式子得出29 & 15
+
+0001 1101
+&
+0000 1111
+0000 1101 = 13，扩容后数组长度32，原索引值为13，32比16在二进制上多出的那一位，也就是16，则
+
+0001 1101
+&
+0001 1111
+0001 1101 = 13 + 16，得到新下标。所以判断扩容后位置就变得非常简单，如果hashcode二进制上与扩容后长度-1最高位对应的那位是0还是1，如果是1，1&1=1，则下标+16，也就是多出来的那一位1，否则不变
+
+
+
+
 
 ## HashTable
 

@@ -1,4 +1,4 @@
-**BeanDefination**(@Component 、 @Bean、 <bean/>会被解析为此对象)
+ **BeanDefination**(@Component 、 @Bean、 <bean/>会被解析为此对象)
 
 - beanClass
 

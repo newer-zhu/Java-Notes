@@ -1,6 +1,6 @@
 ![image-20210815143700675](E:\学习笔记\typora\img\image-20210815143700675.png)
 
- LinkedList 实现了 Queue 接口,该接口比List提供了更多的方法
+ LinkedList 实现了 Deque 接口,该接口比List提供了更多的方法
 
 ## 重要变量
 

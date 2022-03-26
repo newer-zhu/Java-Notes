@@ -130,6 +130,8 @@ iterator的remove方法和ArratList的remove方法不一样。前者不会有并
 
    所以CopyOnWrite容器是一种读写分离的思想，读和写不同的容器。而Vector在读写的时候使用同一个容器，读写互斥，同时只能做一件事儿。
 
+SynchronizedList中实现的类并没有都使用synchronized同步代码块。其中有listIterator和listIterator(int index)并没有做同步处理。 在使用SynchronizedList进行遍历的时候要手动加锁
+
 ### 复制ArrayList
 
 1.clone 	2. 构造方法 	3.addAll方法
