@@ -21,7 +21,7 @@ static final int MIN_TREEIFY_CAPACITY = 64;
 //存放链表的数组
 transient Node<K,V>[] table;
 transient Set<Map.Entry<K,V>> entrySet;
-//真正使用的数组容量
+
 transient int size;
 //扩容阈值
 int threshold;
@@ -147,7 +147,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
                 //参数条件判断，是否只在不存在key的情况下put
                 if (!onlyIfAbsent || oldValue == null)
                     e.value = value;//覆盖
-                //f
+                //回调函数
                 afterNodeAccess(e);
                 //返回被覆盖的值
                 return oldValue;

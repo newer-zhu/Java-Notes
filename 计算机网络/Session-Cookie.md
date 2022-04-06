@@ -28,6 +28,6 @@ session活化：tomcat自动活化session，两个session的id相同
 
 - **Header 头部信息**：记录了使用的加密算法信息；
 - **Payload 净荷信息**：记录了用户信息和过期时间等；
-- **Signature 签名信息**：根据 header 中的加密算法和 payload 中的用户信息以及密钥key来生成，是服务端验证服务端的重要依据。
+- **Signature 签名信息**：根据 header 中的加密算法和 payload 中的用户信息以及密钥key来生成，是服务端验证的重要依据。
 
 服务端收到 token 后剥离出 header 和 payload 获取算法、用户、过期时间等信息，然后根据自己的加密密钥来生成 sign，并与客户端传来的 sign 进行一致性对比，来确定客户端的身份合法性。

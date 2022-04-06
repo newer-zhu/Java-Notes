@@ -202,11 +202,11 @@ public class MyInstantiationAwareBeanPostProcessor extends
 
     ----------------------------------下面是回答模板---------------------------------
 
-11. 【Bean实例化】调用Person的构造器实例化（推断构造方法）*  *createBeanInstance方法创建*
+11. 【Bean实例化】利用反射调用Person的构造器实例化（推断构造方法）*  *createBeanInstance方法创建*
 
 12. InstantiationAwareBeanPostProcessor调用postProcessPropertyValues方法
 
-13. 【注入属性】* *利用反射实例化后只是分配内存空间，并没有对属性进行设置。polulateBean方法注入*
+13. 【注入属性】*  *利用反射实例化后只是分配内存空间，并没有对属性进行设置。polulateBean方法注入*
 
     
 
@@ -224,7 +224,7 @@ public class MyInstantiationAwareBeanPostProcessor extends
 
 19. BeanPostProcessor接口方法postProcessAfterInitialization调用   *
 
-    ----------------此时bean已经可以用了--
+    ----------------此时bean已经可以用了----------
 
 20. InstantiationAwareBeanPostProcessor调用postProcessAfterInitialization方法
 
@@ -237,6 +237,8 @@ public class MyInstantiationAwareBeanPostProcessor extends
 23. 【DiposibleBean接口】调用destroy方法    *
 
 24. 【destroy-method】调用<bean>的destroy-method属性指定的初始化方法    *
+
+
 
 #### 各组件作用
 
@@ -295,6 +297,12 @@ public interface BeanFactoryPostProcessor {
 **有状态对象(Stateful Bean)** ：就是有实例变量的对象，可以保存数据，是非线程安全的。每个用户有自己特有的一个实例，在用户的生存期内，bean保持了用户的信息，即“有状态”；一旦用户灭亡（调用结束或实例结束），bean的生命期也告结束。即每个用户最初都会得到一个初始的bean。
 
 **无状态对象(Stateless Bean)**：就是没有实例变量的对象，不能保存数据，是不变类，是线程安全的。bean一旦实例化就被加进会话池中，各个用户都可以共用。即使用户已经消亡，bean 的生命期也不一定结束，它可能依然存在于会话池中，供其他用户调用。由于没有特定的用户，那么也就不能保持某一用户的状态，所以叫无状态bean。但无状态会话bean 并非没有状态，如果它有自己的属性（变量），那么这些变量就会受到所有调用它的用户的影响，这是在实际应用中必须注意的。
+
+### @Component和@Bean的区别是什么
+
+1.作用对象不同。@Component注解作用于类，而@Bean注解作用于方法。
+2.@Component注解通常是通过类路径扫描来自动侦测以及自动装配到Spring容器中（我们可以使用@ComponentScan注解定义要扫描的路径）。@Bean注解通常是在标有该注解的方法中定义产生这个bean，告诉Spring这是某个类的实例，当我需要用它的时候还给我。
+3.@Bean注解比@Component注解的自定义性更强，而且很多地方只能通过@Bean注解来注册bean。比如当引用第三方库的类需要装配到Spring容器的时候，就只能通过@Bean注解来实现。
 
 **对于有状态的bean，Spring官方提供的bean，一般提供了通过ThreadLocal去解决线程安全的方法**
 

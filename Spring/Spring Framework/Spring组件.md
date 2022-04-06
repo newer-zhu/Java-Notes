@@ -17,7 +17,7 @@
 核心子接口和实现类
 
 - DefaultListableBeanFactory
-- 支持单例Bean，Bean别名，父子BeanFactory。Bean类型转化，Bean后置处理，FactoryBean，自动装配等
+  - 支持单例Bean，Bean别名，父子BeanFactory。Bean类型转化，Bean后置处理，FactoryBean，自动装配等
 - ConfigurableBeanFactory
 - AutowireCapableBeanFactory
 - AbsractBeanFactory
@@ -31,7 +31,7 @@
 
 Spring提供的创建Bean的方式，通过此接口的getObject方法返回最终的Bean对象，还有isSingleton， getObjectType方法
 
-广泛运用在Spring与第三方框架组件的整合过程中，FactoryBean本身是一个Bean，可以通过实现 FactoryBean 接口定制实例化 Bean 的逻辑，通过代理一个Bean对象，对方法前后做一些操作。
+广泛运用在Spring与第三方框架组件的整合过程中，可以通过实现 FactoryBean 接口定制实例化 Bean 的逻辑，通过代理一个Bean对象，对方法前后做一些操作。
 
 而BeanFactory是一个Spring容器，可以生产和管理Bean
 
@@ -66,9 +66,7 @@ Spring提供的扩展机制，允许对Bean定制加工，是一个接口
 
 子接口有InstantiationAwareBeanPostProcessor，包含了实例化前，实例化后，属性注入后三个方法
 
-**Bean生命周期**
 
-![image-20210725023627979](E:\学习笔记\typora\img\image-20210725023627979.png)
 
 AOP  在Spring实例化出来一个Target对象后进行属性填充 ，初始化后会判断Target对象有没有对应的切面，有则进行AOP，通过动态代理生成最终对象
 
