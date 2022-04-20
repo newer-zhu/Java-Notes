@@ -219,7 +219,7 @@ public final boolean release(int arg) {
 
 //reentrantLock的tryRelease
 protected final boolean tryRelease(int releases) {
-    		//判断锁重入的参数，state-
+    		//判断锁重入的参数
             int c = this.getState() - releases;
             if (Thread.currentThread() != this.getExclusiveOwnerThread()) {
                 throw new IllegalMonitorStateException();
