@@ -25,6 +25,22 @@
 
 **采用模板模式：tryAcquire是需要子类实现的，而Acquire可以使用AQS提供的实现**
 
+**节点的waitStatus**
+
+```java
+// CANCELLED：由于超时或中断，此节点被取消。节点一旦被取消了就不会再改变状态。特别是，取消节点的线程不会再阻塞。
+static final int CANCELLED =  1;
+// SIGNAL:此节点后面的节点已（或即将）被阻止（通过park），因此当前节点在释放或取消时必须断开后面的节点
+// 为了避免竞争，acquire方法时前面的节点必须是SIGNAL状态，然后重试原子acquire，然后在失败时阻塞。
+static final int SIGNAL    = -1;
+// 此节点当前在条件队列中。标记为CONDITION的节点会被移动到一个特殊的条件等待队列（此时状态将设置为0），直到条件时才会被重新移动到同步等待队列 。（此处使用此值与字段的其他用途无关，但简化了机制。）
+static final int CONDITION = -2;
+//传播：应将releaseShared传播到其他节点。这是在doReleaseShared中设置的（仅适用于头部节点），以确保传播继续，即使此后有其他操作介入。
+static final int PROPAGATE = -3;
+```
+
+
+
 ## 自定义锁（不可重入锁）
 
 ```java

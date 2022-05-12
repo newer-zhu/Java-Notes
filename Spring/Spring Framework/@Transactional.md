@@ -1,3 +1,15 @@
+## Spring中关于事务的组件
+
+事务的包有三个接口文件，TransactionStatus，TransactionDefinition，PlatformTransactionManager.
+
+1. PlatformTransactionManager是事务平台管理器，用于管理事务，提供了3个事务操作的方法。
+   	commit，rollback，getTransaction
+   它并不知道底层实现，由实现类具体去实现。
+2. TransactionDefinition定义了事务规则，提供了提取事务信息的方法
+3. TransactionStatus描述了某一时间的事务状态
+
+## 注解
+
 放在接口实现类或接口实现方法上
 
 由于是基于Spring AOP，所以被注解的方法必须是public的

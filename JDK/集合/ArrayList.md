@@ -4,13 +4,7 @@
 
 ## 接口
 
-**浅拷贝**
-
-拷贝的是引用，引用数据类型会被引用数据的更改而影响
-
-**深拷贝**
-
-重写clone方法，先调用super的clone方法，对引用类型进行克隆后赋值并返回
+**拷贝**
 
 **随机访问**
 
@@ -29,8 +23,6 @@ EMPTY_ELEMENTDATA = new Object[0]：空数组
 modCount：它表示该集合实际被修改的次数
 
 expectedModCount ：是 ArrayList中的一个内部类——Itr（继承自Iterator）中的成员变量
-
-cusor：Itr中的变量，表示迭代器的当前指针
 
 ## 重要函数
 

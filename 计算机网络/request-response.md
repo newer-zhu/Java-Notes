@@ -14,6 +14,7 @@ Accept-Encoding	支持的压缩格式
 Referer	告诉服务器，请求从哪里来。作用：1.防盗链2.统计工作
 Connection	表示连接的状态(活着就可以复用)
 Upgrade-Insecure-Requests	关于升级的信息
+upgrade websocket
 
 请求空行
 
