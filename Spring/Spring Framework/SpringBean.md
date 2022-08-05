@@ -22,19 +22,7 @@
 
 ApplicationContext是一个多继承了BeanFactory子类的接口，获取了比BeanFactory更多的方法
 
-ApplicationContext的三个常用实现类
-
-1. ClassPathXmlApplicationContext可以加载类路径下的配置文件
-
-2. FileSystemXMLApplicationContext加载磁盘下的配置文件
-
-3. AnnotationConfigXMLApplicationContext读取注解创建容器
-
-   
-
-   ApplicationContext分为刷新和不可刷新的，刷新后容器里的bean会被销毁
-
-
+ApplicationContext分为刷新和不可刷新的，刷新后容器里的bean会被销毁
 
 ### Bean的生命周期
 

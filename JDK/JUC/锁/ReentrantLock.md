@@ -78,20 +78,6 @@ try {
 reentrantLock.tryLock();
 ```
 
-**公平锁**
-
-默认不公平，公平锁会降低并发度，非必要不使用
-
-```java
-public ReentrantLock() {
-    this.sync = new ReentrantLock.NonfairSync();
-}
-```
-
-**条件变量**
-
-相当于把waitSet按条件分组了，可以按条件特定signal或signalAll
-
 ## 源码分析
 
 ### 非公平锁
@@ -241,10 +227,6 @@ protected final boolean tryRelease(int releases) {
 ```
 
 **可打断模式**
-
-即使被打断，仍会驻留在AQS队列，等待获取锁后继续运行
-
-不可打断模式
 
 ```java
 //在AQS中

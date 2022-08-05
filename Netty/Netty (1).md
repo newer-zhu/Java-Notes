@@ -1,8 +1,4 @@
-NioEventLoopGroup默认子线程个数是电脑核数 * 2
-
-workerGroup会把子线程分配给客户端
-
-ChannelHandlerContext是个全局对象
+## Netty任务队列
 
 如果有耗时长的任务，利用eventLoop的execute方法，新建一个Runable去执行任务，任务将被放入taskQueue，taskQueue里的任务还是一个线程执行的。
 

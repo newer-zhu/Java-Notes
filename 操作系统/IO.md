@@ -17,14 +17,20 @@
 **LINUX五种IO模型**
 
 1. 阻塞式IO
-
 2. 非阻塞式IO
-
 3. IO多路复用
-
-4. 信号驱动
-
+4. 信号驱动 
 5. 异步IO
+
+![img](https://uploadfiles.nowcoder.com/images/20220224/4107856_1645697176069/15E8A71DD02F5934C2D617340EABD097)
+
+![img](https://uploadfiles.nowcoder.com/images/20220224/4107856_1645697189029/0347B150DCD58A539420C4EEFDA38DDA)
+
+![img](https://uploadfiles.nowcoder.com/images/20220224/4107856_1645697204755/99AAF975C142C12C64599E1CC4EA2A26)
+
+![img](https://uploadfiles.nowcoder.com/images/20220224/4107856_1645697219427/9712953FC0712BDF26B12B1BDB20FEFE)
+
+![img](https://uploadfiles.nowcoder.com/images/20220224/4107856_1645697244750/2DE5E6A07632CB924A60FF35C1183DEB)
 
 前面四种IO模型实际上都属于同步IO，只有最后一种是真正的异步IO，因为无论是多路复用IO还是信号驱动模型，IO操作的第2个阶段都会引起用户线程阻塞，也就是内核进行数据拷贝的过程都会让用户线程阻塞。
 

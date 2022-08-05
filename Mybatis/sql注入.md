@@ -9,8 +9,6 @@ public List<Course> orderList(String studentId){
 }
 ```
 
-这样我们传进来的参数 `4 or 1 = 1`就会被当作是一个`student_id`，所以就不会出现sql注入了。
-
 **2. 确认每种数据的类型，比如是数字，数据库则必须使用int类型来存储**
 
 **3. 规定数据长度，能在一定程度上防止sql注入**

@@ -263,15 +263,11 @@ private final ConcurrentHashMap.Node<K, V>[] initTable() {
 
 size计算发生在put，remove改变集合元素的操作中
 
-
-
 ## JDK7
 
 由`Segment`数组结构和`HashEntry`数组组成。`Segment`是一种可重入锁`ReentrantLock`的子类，在 `ConcurrentHashMap` 里扮演锁的角色。是一种数组和链表的结构，一个`Segment`中包含一个`HashEntry`数组，每个`HashEntry`又是一个链表结构。当对 `HashEntry`数组的数据进行修改时，必须首先获得它对应的 `Segment` 锁。
 
 *可以想成一个HashMap外面包了一个Segment守护者，而ConcurrentMap就是一个Segment数组*
-
-![图片](https://mmbiz.qpic.cn/mmbiz_png/wJvXicD0z2dUfft3IveZlPs9s7gibBiaqK4JxI0N6LicFadficuq9VCE6nTqz0Ud7uDtWRleFk3udAIeSHGfFibOHvOQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
 
 ### Segment
 

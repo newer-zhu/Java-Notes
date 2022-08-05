@@ -100,7 +100,7 @@ iterator的remove方法和ArratList的remove方法不一样。前者不会有并
 
 在增强for循环中，集合遍历是通过iterator进行的，但是元素的add/remove却是直接使用的集合类自己的方法。这就导致iterator在遍历的时候，会发现有一个元素在自己不知不觉的情况下就被删除/添加了，就会抛出一个异常，用来提示用户，可能发生了并发修改！
 
-普通的for循环还是可以的，因为普通for循环并没有用到Iterator的遍历，所以压根就没有进行fail-fast的检验，或者直接使用Iterator进行操作
+普通的for循环还是可以的，因为普通for循环并没有用到Iterator的遍历，所以压根就没有进行fail-fast的检验
 
 如果要一个arrayList中有多个相同的元素，要删除所有此元素的话要普通for循环从后往前遍历，不然只会删除第一个符和条件的元素
 
@@ -118,9 +118,6 @@ iterator的remove方法和ArratList的remove方法不一样。前者不会有并
 
    写时复制的思想是通过延时更新的策略来实现数据的最终一致性的，并非强一致性
 
-    
-
-   所以CopyOnWrite容器是一种读写分离的思想，读和写不同的容器。而Vector在读写的时候使用同一个容器，读写互斥，同时只能做一件事儿。
 
 SynchronizedList中实现的类并没有都使用synchronized同步代码块。其中有listIterator和listIterator(int index)并没有做同步处理。 在使用SynchronizedList进行遍历的时候要手动加锁
 

@@ -4,8 +4,6 @@ InnoDB默认的隔离级别是RR（REPEATABLE READ），RR解决脏读、不可�
 2. 基于undo log的版本链：每行数据的隐藏列中包含了指向undo log的指针，而每条undo log也会指向更早版本的undo log，从而形成一条版本链。
 3. ReadView：通过隐藏列和版本链，MySQL可以将数据恢复到指定版本。但是具体要恢复到哪个版本，则需要根据ReadView来确定。所谓ReadView，是指事务（记做事务A）在某一时刻给整个事务系统（trx_sys）打快照，之后再进行读操作时，会将读取到的数据中的事务id与trx_sys快照比较，从而判断数据对该ReadView是否可见，即对事务A是否可见。
 
-
-
 MVCC的原理与copyonwrite类似，全称是Multi-Version Concurrent Control，即多版本并发控制。适用于读远大于写的情况，写数据时会拷贝一份副本，修改的是副本数据，然后让副本去原子替换数据。
 
 在MVCC协议下，每个读操作会看到一个一致性的snapshot，并且可以实现非阻塞的读。MVCC允许数据具有多个版本，这个版本可以是时间戳或者是全局递增的事务ID，在同一个时间点，不同的事务看到的数据是不同的。
