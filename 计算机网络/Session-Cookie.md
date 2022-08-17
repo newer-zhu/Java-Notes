@@ -14,8 +14,6 @@ Session依赖于Cookie，但也可依赖于其他实现方式，如URL重写
 
 响应给浏览器一个set-cookie头，值是session的id，浏览器第二次请求时又利用这个值找到同一个session
 
-session默认失效时间为30min
-
 session可以储存任意类型，任意大小的数据，可以用于储存一次会话的多次请求
 
 **session钝化**：服务器关闭前，将session对象序列化到硬盘上。
