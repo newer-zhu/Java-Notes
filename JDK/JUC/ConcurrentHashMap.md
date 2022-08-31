@@ -267,8 +267,6 @@ size计算发生在put，remove改变集合元素的操作中
 
 由`Segment`数组结构和`HashEntry`数组组成。`Segment`是一种可重入锁`ReentrantLock`的子类，在 `ConcurrentHashMap` 里扮演锁的角色。是一种数组和链表的结构，一个`Segment`中包含一个`HashEntry`数组，每个`HashEntry`又是一个链表结构。当对 `HashEntry`数组的数据进行修改时，必须首先获得它对应的 `Segment` 锁。
 
-*可以想成一个HashMap外面包了一个Segment守护者，而ConcurrentMap就是一个Segment数组*
-
 ### Segment
 
 /**并发度可以理解为程序运行时能够「同时更新」ConccurentHashMap且不产生锁竞争的最大线程数，实际上就是ConcurrentHashMap中的分段锁个数，即Segment[]的数组长度。如果并发度设置的过小，会带来严重的锁竞争问题；如果并发度设置的过大，原本位于同一个Segment内的访问会扩散到不同的Segment中，CPU cache命中率会下降，从而引起程序性能下降。*/

@@ -276,7 +276,6 @@ public interface BeanFactoryPostProcessor {
 
 3. **可以快速获取到 bean** 因为单例的获取bean操作除了第一次生成之外其余的都是从缓存里获取的，所以很快
 
-   **缺点**：线程不安全
 
 ### Bean是如何解决线程安全？
 

@@ -1,6 +1,6 @@
 **概念**
 
-每个Thread对象里有一个map，key是ThreadLocal的hashcode，value是我们放入的Object。每个线程都独享一块ThreadLocal Map。
+每个Thread对象里有一个map，key是ThreadLocal的hashcode，value是Object。每个线程都独享一块ThreadLocal Map。
 
 **内存泄漏**
 
@@ -8,15 +8,13 @@ Map的Entry继承自WeakReference,所以它的key是弱引用。如果是强引�
 
 但在某些情况下还是会有内存泄漏的情况
 
-2. 当使用static ThreadLocal的时候，延长了ThreadLocal的生命周期，也可能导致内存泄漏。因为static变量在线程结束的时候不一定会回收。那么，比起普通成员变量使用的时候才加载，static的生命周期加长将更容易导致内存泄漏危机
+1. 当使用static ThreadLocal的时候，延长了ThreadLocal的生命周期，也可能导致内存泄漏。因为static变量在线程结束的时候不一定会回收。那么，比起普通成员变量使用的时候才加载，static的生命周期加长将更容易导致内存泄漏危机
 
-3. 线程没结束，但是ThreadLocal没了被置成null，造成value不可访问也不销毁，这时候可能会内存泄漏。
+2. 线程没结束，但是ThreadLocal没了被置成null，造成value不可访问也不销毁，这时候可能会内存泄漏。
 
 **优化**
 
-JVM利用调用remove、get、set方法的时候，都会回收弱引用对象
-
-Java为了最小化减少内存泄露的可能性和影响，在ThreadLocal的get,set的时候都会清除线程Map里所有key为null的value。所以最坏的情况就是，threadLocal对象设null了，开始发生“内存泄露”，然后使用线程池，这个线程结束后放回线程池中不销毁且一直不被使用，或者使用了又不再调用get,set方法，那么这个期间就会发生真正的内存泄露。
+Java为了最小化减少内存泄露的可能性和影响，在ThreadLocal的get,set,remove的时候都会清除线程Map里所有key为null的value。所以最坏的情况就是，threadLocal对象设null了，开始发生“内存泄露”，然后使用线程池，这个线程结束后放回线程池中不销毁且一直不被使用，或者使用了又不再调用get,set方法，那么这个期间就会发生真正的内存泄露。
 
 ![image-20211029171106926](E:\学习笔记\typora\img\image-20211029171106926.png)
 
