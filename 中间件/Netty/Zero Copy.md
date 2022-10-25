@@ -2,7 +2,7 @@
 
 **read**：将数据从磁盘通过DMA读取到内核缓存区中，在拷贝到用户缓冲区
 
-**write**:先将数据写入到socket缓冲区中，经过DMA写入网卡设备
+**write**: 先将数据写入到socket缓冲区中，经过DMA写入网卡设备
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/7583346eb0c54538927bd5e4bcbe2e1f.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LuO5pio5aSp,size_20,color_FFFFFF,t_70,g_se,x_16)
 

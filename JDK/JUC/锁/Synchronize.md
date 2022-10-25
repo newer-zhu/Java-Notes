@@ -14,33 +14,6 @@ Synchronize定义的方法被子类覆盖后并不是同步的，也就是不可
 
 如果线程获取所得顺序做出特定的改变就能解决死锁问题。但可能会导致饥饿问题。
 
-**活锁**
-
-两个线程互相改变对方的结束条件，两个线程都一直无法结束。此处和synchronize没有关系，此处的锁代表的是广义的锁。两个线程的执行交错开就能解决活锁。
-
-```java
-class liveLock{
-    static volatile int count = 10;
-    static final Object lock = new Object();
-            
-    public static void main(String[] args) {
-        new Thread(() -> {
-            while (count > 0){
-                Thread.sleep(3000);
-                count--;
-            }
-        }, "t1").start();
-        
-        new Thread(() -> {
-            while (count < 30){
-                Thread.sleep();
-                count++;
-            }
-        }, "t2").start();
-    }
-}
-```
-
 **锁消除**
 
 由JIT即时编译器优化
@@ -68,8 +41,6 @@ public void add(){
 
 当加上synchronized时，Mark Word就会指向Monitor，成为Owner，此时其他线程会进入EntryList等待。进入Block状态，EntryList唤醒是非公平的。若获得锁但不满足条件的线程会进入WaitSet。
 
-==Entrylist中的线程处于阻塞状态，也就是线程还没有拿到锁。Wait Set中的线程处于等待状态，也就是拿到锁后暂时释放锁（等待条件成熟会再次获取锁）。==
-
 **monitor**
 
 monitor是OS提供的，具有**WaitSet， EntryList， Owner**
@@ -77,8 +48,6 @@ monitor是OS提供的，具有**WaitSet， EntryList， Owner**
 **Lock Record**
 
 每个线程的栈帧包含的锁记录，内部储存锁定对象的MarkWord
-
-内部有reference指向锁定对象，还有一个对象储存交换后的Markword
 
 解锁Lock Record一条一条弹出，最后一条弹出时对MarkWord进行了还原
 

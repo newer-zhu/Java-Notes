@@ -2,14 +2,6 @@
 
 ![image-20210814213427716](E:\学习笔记\typora\img\image-20210814213427716.png)
 
-## 接口
-
-**拷贝**
-
-**随机访问**
-
-允许通用算法更改其行为，提供良好的性能。实现此接口的用fori遍历更快
-
 ## 重要变量
 
 elementData：是transient类型的，储存变量的容器
@@ -55,12 +47,6 @@ private Object[] grow(int minCapacity) {
         return this.elementData = Arrays.copyOf(this.elementData, 	this.newCapacity(minCapacity));
     }
 
-//添加元素时下标校验
-private void rangeCheckForAdd(int index) {
-        if (index > this.size || index < 0) {
-            throw new IndexOutOfBoundsException(this.outOfBoundsMsg(index));
-        }
-    }
 
 //并发修改次数校验。此方法在Itr内部类里
 final void checkForComodification() {
@@ -82,14 +68,6 @@ private void fastRemove(Object[] es, int i) {
         es[this.size = newSize] = null;
     }
 
-/**数组拷贝
-   *Object src : 原数组
-   *int srcPos : 从元数据的起始位置开始
-　　*Object dest : 目标数组
-　　*int destPos : 目标数组的开始起始位置
-　　*int length  : 要copy的数组的长度
-*/
-public static void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
 ```
 
 iterator的remove方法和ArratList的remove方法不一样。前者不会有并发修改异常，因为前者将modCount重新赋值给了expectedModCount
@@ -120,14 +98,4 @@ iterator的remove方法和ArratList的remove方法不一样。前者不会有并
 
 
 SynchronizedList中实现的类并没有都使用synchronized同步代码块。其中有listIterator和listIterator(int index)并没有做同步处理。 在使用SynchronizedList进行遍历的时候要手动加锁
-
-### 复制ArrayList
-
-1.clone 	2. 构造方法 	3.addAll方法
-
-### asList
-
-asList 得到的只是一个 Arrays 的内部类，一个原来数组的视图 List，因此如果对它进行增删操作会报错
-
-*默认情况下ArrayList的初始容量非常小,所以如果可以预估数据量的话,分配一个较大的初始值属于最佳实践,这样可以减少调整大小的开销*
 

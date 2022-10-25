@@ -28,10 +28,7 @@ private static class Node<E> {
 ## 重要函数
 
 ```java
-public boolean add(E e) {
-    this.linkLast(e);
-    return true;
-}
+
 //尾部添加节点
 void linkLast(E e) {
         LinkedList.Node<E> l = this.last;

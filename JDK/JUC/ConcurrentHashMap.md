@@ -1,5 +1,3 @@
-==继承AbstractMap，实现ConcurrentMap、Serializable==
-
 ## JDK8
 
 取消了segment数组，直接用table保存数据，锁的粒度更小，减少并发冲突的概率。采用table数组元素作为锁，从而实现了对每一行数据进行加锁，进一步减少并发冲突的概率，并发控制使用Synchronized和CAS来操作。
@@ -106,7 +104,7 @@ final V putVal(K key, V value, boolean onlyIfAbsent) {
                 int i;
                 //此位置为空，直接放入当作头节点
                 if ((f = tabAt(tab, i = n - 1 & hash)) == null) {
-                    if (casTabAt(tab, i, (ConcurrentHashMap.Node)null, new ConcurrentHashMap.Node(hash, key, value))) {
+                    if (casTabAt(tab, i, (Node)null, new Node(hash, key, value))){
                         break;
                     }
                 } else {

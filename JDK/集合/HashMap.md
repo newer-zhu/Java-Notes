@@ -1,7 +1,6 @@
-==继承AbstractMap，实现Map、Coloneable、Serializable==
+
 
 ## 重要变量
-
 
 JDK使用的桶数是 2 的幂， 默认值为 16
 如果散列表太满， 就需要再散列 （rehashed)。如果要对散列表再散列， 就需要创建一个桶数更多的表， 并将所有元素插入到这个新表中. 然后丢弃原来的表。装填因子（ load factor) 决定何时对散 列表进行再散列。例如， 如果装填因子为 0.75 (默认值，) 而表中超过 75%的位置已经填入元素， 这个表就会用双倍的桶数自动地进行再散列。
@@ -57,11 +56,6 @@ static final int tableSizeFor(int cap) {
     return (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
 }
 
-//获取元素
-public V get(Object key) {
-        Node<K,V> e;
-        return (e = getNode(hash(key), key)) == null ? null : e.value;
-    }
 //获取比较简单
 final HashMap.Node<K, V> getNode(int hash, Object key) {
         HashMap.Node[] tab;
@@ -181,7 +175,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 
 **hashmap根据[ (table_length - 1) & hash ]获取桶下标**
 
-Java之所有使用位运算(&)来代替取模运算(%)，最主要的考虑就是效率。位运算(&)效率要比代替取模运算(%)高很多，主要原因是位运算直接对内存数据进行操作，不需要转成十进制，因此处理速度非常快，还有一个好处就是可以很好的解决负数的问题
+Java之所有使用位运算(&)来代替取模运算(%)，最主要的考虑就是效率。位运算(&)效率要比代替取模运算(%)高很多，主要原因是位运算直接对内存数据进行操作，还有一个好处就是可以很好的解决负数的问题
 
 **之所以可以做等价代替，前提是要求HashMap的容量一定要是2^n**
 
@@ -201,15 +195,6 @@ X % 2^n  =  X & (2^n - 1)
 
 如1010 
     1111 -> 1010，其中hash是1010，1111是15，也就是table长度-1，而2次幂-1的数后面都是1，满足条件
-
-### hashcode位运算
-
-```java
-//jdk1.7
-h ^= k.hashCode(); h ^= (h >>> 20) ^ (h >>> 12); return h ^ (h >>> 7) ^ (h >>> 4);
-```
-
-关于Java 8中的hash函数，原理和Java 7中基本类似。Java 8中这一步做了优化，只做一次16位右位移异或混合，而不是四次，但原理是不变的
 
 #### 扩容判断
 

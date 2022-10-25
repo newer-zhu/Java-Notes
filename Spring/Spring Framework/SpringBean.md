@@ -12,12 +12,6 @@
 
 5. BeanFactory和Application都有registerBean 方法注册一个Bean，底层还是BeanDefinition构造。参数为Supplier接口，重写里面的get方法
 
-### 单例池（一级缓存）
-
-作用域单例不代表容器中不能存在多个同类型的Bean，只是说明根据bean id获取的Bean都是同一个。原型的Bean根据bean id 获取的对象是不同的。单例非懒加载的bean在spring初始化时就已经创建。
-
-**单例池是一个concurrentHashMap， 名字为singletonObjects，属于BeanFactory里的一个变量**
-
 ### ApplicationContext和BeanFactory
 
 ApplicationContext是一个多继承了BeanFactory子类的接口，获取了比BeanFactory更多的方法
@@ -26,7 +20,7 @@ ApplicationContext分为刷新和不可刷新的，刷新后容器里的bean会�
 
 ### Bean的生命周期
 
-![Bean的生命周期](https://img-blog.csdn.net/20180608112517790?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzIzNDczMTIz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+![Bean的生命周期](https://uploadfiles.nowcoder.com/images/20220224/4107856_1645694380479/7EF8F66C3DFA7434E4CA11B47CF8F1F7)
 
 #### 测试代码
 
@@ -226,8 +220,6 @@ public class MyInstantiationAwareBeanPostProcessor extends
 
 24. 【destroy-method】调用<bean>的destroy-method属性指定的初始化方法    *
 
-
-
 #### 各组件作用
 
 **BeanFactoryPostProcessor**
@@ -293,3 +285,7 @@ public interface BeanFactoryPostProcessor {
 
 **对于有状态的bean，Spring官方提供的bean，一般提供了通过ThreadLocal去解决线程安全的方法**
 
+### IOC周期
+
+1. 低级容器 加载配置文件（从 XML，数据库，Applet），并解析成 `BeanDefinition` 到低级容器中。
+2. 加载成功后，高级容器启动高级功能，例如接口回调，监听器，自动实例化单例，发布事件等等功能。

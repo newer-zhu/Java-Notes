@@ -1,6 +1,0 @@
-## Netty任务队列
-
-如果有耗时长的任务，利用eventLoop的execute方法，新建一个Runable去执行任务，任务将被放入taskQueue，taskQueue里的任务还是一个线程执行的。
-
-也可以利用eventLoop的schedule方法设置定时任务，将任务放入scheduleTask中
-
