@@ -66,16 +66,6 @@ Spring提供的扩展机制，允许对Bean定制加工，是一个接口
 
 子接口有InstantiationAwareBeanPostProcessor，包含了实例化前，实例化后，属性注入后三个方法
 
-**@Resource & @Autowired**
-
-找到@Resource注解后，判断其name属性是否为空，若为空，看Spring容器中的bean中的id与@Resource要注解的那个变量属性名是否相同，如相同，匹配成功；如不同，看spring容器中bean的id对应的类型是否与@Resource要注解的那个变量属性对应的类型是否相等，若相等，匹配成功，若不相等，匹配失败
-
-@Autowired 默认是按照类去匹配，配合 @Qualifier 指定按照名称去装配 bean
-
-@Autowired可以指定实例化bean所用的构造方法，当有多个构造方法时。
-
-也可以标在setter和getter方法上实现属性注入
-
 **@Value**
 
 @Value("xxx") 注入字符串

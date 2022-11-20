@@ -75,12 +75,6 @@ void createMap(Thread t, T firstValue) {
     }
 ```
 
-**结论**
-
-若第一次执行的操作是set则会创建ThreadLocalMap，并放入value，key是当前ThreadLocal的hashcode。
-
-若第一次执行的操作是get也会创建ThreadLocalMap。key为当前的ThreadLocal的hashcode，value为null，并返回null。
-
 **ThreadLocalMap**
 
 Hash冲突

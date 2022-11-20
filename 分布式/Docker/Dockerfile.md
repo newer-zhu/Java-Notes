@@ -10,7 +10,7 @@
 6. USER 以什么用户身份执行，默认root
 7. COPY 将宿主机目录下文件的内容复制到镜像目录
 8. ADD 宿主机目录下文件拷贝进镜像，自动处理url和tar压缩包
-9. VOLUMNE 允许挂载的目录
+9. VOLUMN 允许挂载的目录
 10. ENV key value 环境变量
 11. ENTRYPOINT 容器启动时指令，命令行的参数会传给ENTRYPOINT 指令指定的程序。 如果有了此命令，CMD会变成参数，如<ENTRYPOINT> "<CMD>"
 12. CMD 默认参数，启动后执行命令。会被docker run之后的命令替换
