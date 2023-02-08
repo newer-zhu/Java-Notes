@@ -273,7 +273,7 @@ public interface BeanFactoryPostProcessor {
 
 **对于有状态的bean，Spring官方提供的bean，一般提供了通过ThreadLocal去解决线程安全的方法**
 
-### IOC周期
+### IOC生命周期
 
 1. 低级容器 加载配置文件（从 XML，数据库，Applet），并解析成 `BeanDefinition` 到低级容器中。
 2. 加载成功后，高级容器启动高级功能，例如接口回调，监听器，自动实例化单例，发布事件等等功能。
