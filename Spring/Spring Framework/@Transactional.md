@@ -36,5 +36,7 @@ Spring 默认只会回滚非检查异常
 
 7. 数据源没有配置事务管理器
 
+8. 方法是非public或者final的
+
 一个被注解的方法里两次访问数据库，两次的connection必须是同一个，通过ThreadLocal可以获取到同一个connection
 
